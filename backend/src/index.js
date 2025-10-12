@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import messageRoutes from '../src/routes/message.route.js'
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(cors({
 
 // ✅ 2. Then load routes
 app.use("/api/auth", auth);
+app.use("/api/message", messageRoutes)
 
 // ✅ 3. Connect to DB
 connectDB();
