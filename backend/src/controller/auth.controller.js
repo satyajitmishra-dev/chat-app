@@ -4,6 +4,7 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { generateToken } from "../utils/generateJWT.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = asyncHandler(async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -95,10 +96,30 @@ export const logout = asyncHandler(async (req, res) => {
 export const updateProfile = asyncHandler(async(req, res) => {
   try {
     
-    
+    const {avatar} = req.body
+
+    if (!avatar) {
+      throw new ApiError(401, "Profile Photo must be Provided !")
+    }
+
+    const userId = req.user._id;
+
+    const uploadAvatar = await cloudinary.uploader.upload(avatar);
+    const updatedUser = await User.findByIdAndUpdate(userId, {avatar: uploadAvatar.secure_url}, {new: true})
+
+    res.status(200).json(new ApiResponse(200, updatedUser, "Profile photo Updated successfully!"));
 
   } catch (error) {
     console.log(error);
     throw new ApiError(500, "Error! While Updating Profile ", error);
   }
 });
+
+export const checkAuth = (req, res) =>{
+  try {
+    res.status(200).json(req.user)
+  } catch (error) {
+    console.log("Error In checkAuth controller", error);
+    throw new ApiError(500, "checkAuth controller Error", error)
+  }
+}
