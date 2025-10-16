@@ -7,12 +7,18 @@ import { generateToken } from "../utils/generateJWT.js";
 import cloudinary from "../lib/cloudinary.js";
 
 export const signup = asyncHandler(async (req, res) => {
-  const { fullName, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     // Check for empty fields
-    if (!fullName || !email || !password) {
-      throw new ApiError(400, "All fields are required!");
+    if (!name) {
+      throw new ApiError(400, "Name is required");
+    }
+    if (!email) {
+      throw new ApiError(400, "Email is required");
+    }
+    if (!password) {
+      throw new ApiError(400, "Password is required");
     }
 
     // Password length validation
@@ -32,7 +38,7 @@ export const signup = asyncHandler(async (req, res) => {
 
     // Create user
     const newUser = await User.create({
-      fullName,
+      fullName: name,
       email,
       password: hashedPassword,
     });
@@ -54,13 +60,16 @@ export const login = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      throw new ApiError(400, "All filelds are required");
+    if (!email) {
+      throw new ApiError(400, "Email is required");
+    }
+    if (!password) {
+      throw new ApiError(400, "Password is required");
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      throw new ApiError(400, "Email does not Exist !! Please Signup first..");
+      throw new ApiError(400, "Email does not exist! Please sign up first.");
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password)
@@ -76,7 +85,7 @@ export const login = asyncHandler(async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    throw new ApiError(500, "Error ! While Login ", error);
+    throw new ApiError(500, "Email and Password does not match!", error);
   }
 });
 
@@ -93,31 +102,37 @@ export const logout = asyncHandler(async (req, res) => {
   }
 });
 
-export const updateProfile = asyncHandler(async(req, res) => {
-  try {
-    
-    const {avatar} = req.body
+export const updateProfile = asyncHandler(async (req, res) => {
+    if (!req.file) throw new ApiError(400, 'No file uploaded');
 
-    if (!avatar) {
-      throw new ApiError(401, "Profile Photo must be Provided !")
-    }
+    // Convert buffer to base64 data URI
+    const b64 = Buffer.from(req.file.buffer).toString('base64');
+    const dataURI = `data:${req.file.mimetype};base64,${b64}`;
 
-    const userId = req.user._id;
+    // Upload to Cloudinary
+    const uploadRes = await cloudinary.uploader.upload(dataURI, {
+        folder: 'chat-app/avatars',
+        resource_type: 'auto',
+    });
 
-    const uploadAvatar = await cloudinary.uploader.upload(avatar);
-    const updatedUser = await User.findByIdAndUpdate(userId, {avatar: uploadAvatar.secure_url}, {new: true})
+    // Update user record
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { avatar: uploadRes.secure_url },
+        { new: true }
+    );
 
-    res.status(200).json(new ApiResponse(200, updatedUser, "Profile photo Updated successfully!"));
-
-  } catch (error) {
-    console.log(error);
-    throw new ApiError(500, "Error! While Updating Profile ", error);
-  }
+    res.status(200).json({
+        success: true,
+        message: 'Profile updated successfully',
+        user,
+    });
 });
 
 export const checkAuth = (req, res) =>{
-  try {
-    res.status(200).json(req.user)
+  try{
+    // return authenticated user placed on req by protectRoute
+    res.status(200).json(new ApiResponse(200, req.user, "User Authenticated"))
   } catch (error) {
     console.log("Error In checkAuth controller", error);
     throw new ApiError(500, "checkAuth controller Error", error)

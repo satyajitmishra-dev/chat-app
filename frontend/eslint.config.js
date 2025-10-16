@@ -13,6 +13,7 @@ export default defineConfig([
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
+   
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -20,10 +21,12 @@ export default defineConfig([
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
+        
       },
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
+    "react/props-type": "off",
   },
 ])
