@@ -23,8 +23,8 @@ const ChatContainer = () => {
     getMessages(selectedUser._id);
 
     subscribeToMessages();
-
-    return () => unsubscribeFromMessages();
+// cleanup reason
+    return () => unsubscribeFromMessages(); 
   }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {

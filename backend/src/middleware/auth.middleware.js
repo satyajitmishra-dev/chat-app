@@ -5,16 +5,16 @@ export const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
     // debug logs for troubleshooting authentication / cookie issues
-    console.log("protectRoute - req.cookies:", req.cookies);
-    console.log("protectRoute - token present:", !!token);
+    // console.log("protectRoute - req.cookies:", req.cookies);
+    // console.log("protectRoute - token present:", !!token);
 
     if (!token) {
       return res.status(401).json({ message: "Unauthorized - No Token Provided" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("protectRoute - decoded JWT:", decoded);
-  console.log("protectRoute - decoded.userId:", decoded.userId);
+  //   console.log("protectRoute - decoded JWT:", decoded);
+  // console.log("protectRoute - decoded.userId:", decoded.userId);
 
     if (!decoded) {
       return res.status(401).json({ message: "Unauthorized - Invalid Token" });
@@ -22,7 +22,7 @@ export const protectRoute = async (req, res, next) => {
 
   // Support tokens signed with either `userId` (new) or `UserId` (old/mistyped)
   const tokenUserId = decoded.userId || decoded.UserId || decoded.UserID || decoded.id;
-  console.log("protectRoute - using tokenUserId:", tokenUserId);
+  // console.log("protectRoute - using tokenUserId:", tokenUserId);
 
   const user = await User.findById(tokenUserId).select("-password");
 

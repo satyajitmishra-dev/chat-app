@@ -5,10 +5,11 @@ import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import messageRoutes from '../src/routes/message.route.js'
+import { app, server } from './lib/socket.js';
 
 dotenv.config();
 
-const app = express();
+
 
 // ✅ 1. Setup middlewares FIRST
 app.use(express.json({limit: "10mb"}));
@@ -22,15 +23,15 @@ app.use(cors({
   credentials: true
 }));
 
-// ✅ 2. Then load routes
+//  2. Then load routes
 app.use("/api/auth", auth);
 app.use("/api/message", messageRoutes)
 
-// ✅ 3. Connect to DB
+//  3. Connect to DB
 connectDB();
 
-// ✅ 4. Start server
+//  4. Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
 });
