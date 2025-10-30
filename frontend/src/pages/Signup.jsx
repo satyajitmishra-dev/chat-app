@@ -54,15 +54,18 @@ function Signup() {
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left Side */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-md space-y-8">
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12 bg-base-100">
+        <div className="w-full max-w-md space-y-8 animate-fadeIn">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                <MessageSquare className="size-6 text-primary" />
+              <div className="size-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center 
+                group-hover:scale-110 transition-all duration-300 shadow-xl">
+                <MessageSquare className="size-8 text-primary-content" />
               </div>
-              <h1 className="text-2xl font-bold mt-2">Create Account</h1>
+              <h1 className="text-3xl font-bold mt-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Create Account
+              </h1>
               <p className="text-base-content/60">
                 Get started with your free account
               </p>
@@ -74,7 +77,7 @@ function Signup() {
             {/* Full Name */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Full Name</span>
+                <span className="label-text font-semibold">Full Name</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -82,7 +85,7 @@ function Signup() {
                 </div>
                 <input
                   type="text"
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-10 focus:ring-2 focus:ring-primary/50 transition-all"
                   placeholder="Eg: Satyajit Mishra"
                   value={formData.name}
                   onChange={(e) =>
@@ -95,7 +98,7 @@ function Signup() {
             {/* Email */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Email</span>
+                <span className="label-text font-semibold">Email</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -103,7 +106,7 @@ function Signup() {
                 </div>
                 <input
                   type="email"
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-10 focus:ring-2 focus:ring-primary/50 transition-all"
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={(e) =>
@@ -116,7 +119,7 @@ function Signup() {
             {/* Password */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Password</span>
+                <span className="label-text font-semibold">Password</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -124,7 +127,7 @@ function Signup() {
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-10 focus:ring-2 focus:ring-primary/50 transition-all"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) =>
@@ -133,7 +136,7 @@ function Signup() {
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:opacity-70 transition-opacity"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -148,7 +151,7 @@ function Signup() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="btn btn-primary w-full"
+              className="btn btn-primary w-full shadow-lg hover:shadow-xl hover:scale-105 transition-all"
               disabled={isSigningUp}
             >
               {isSigningUp ? (
@@ -166,7 +169,7 @@ function Signup() {
           <div className="text-center">
             <p className="text-base-content/60">
               Already have an account?{" "}
-              <Link to="/login" className="link link-primary">
+              <Link to="/login" className="link link-primary font-semibold hover:underline">
                 Sign in
               </Link>
             </p>

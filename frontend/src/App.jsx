@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import Signup from "./pages/Signup";
@@ -62,7 +62,15 @@ function App() {
         <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/" />} />
         <Route path="/profile" element={authUser ? <Profile /> : <Navigate to="/login" />} />
         <Route path="/settings" element={authUser ? <Settings /> : <Navigate to="/login" />} />
-        <Route path="*" element={<div>404 Not Found!</div>} />
+        <Route path="*" element={
+          <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-base-200 via-base-100 to-base-200">
+            <div className="text-center space-y-4 animate-fadeIn">
+              <h1 className="text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">404</h1>
+              <p className="text-xl text-base-content/70">Page Not Found!</p>
+              <Link to="/" className="btn btn-primary">Go Home</Link>
+            </div>
+          </div>
+        } />
       </Routes>
 
       <Toaster />
