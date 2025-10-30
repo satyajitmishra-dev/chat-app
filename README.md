@@ -3,6 +3,14 @@
 # ✨ Welcome to **BlinkChat** 💬  
 ### _Connect, Chat & Blink Instantly_
 
+
+
+🌐 **[🔴 Live Demo – Try BlinkChat Now!](https://blinkchat-bgkn.onrender.com/login)**  
+*(Click to experience real-time chatting in action)*  
+
+<img width="1878" height="908" alt="Screenshot 2025-10-30 165207" src="https://github.com/user-attachments/assets/60de6581-88e6-4e4d-8632-79a893a33586" />
+<img width="1920" height="1080" alt="Screenshot (65)" src="https://github.com/user-attachments/assets/9c8bea23-4d1b-493d-ad41-d5064c38c10e" />
+<img width="1920" height="1080" alt="Screenshot (66)" src="https://github.com/user-attachments/assets/880a9948-67cd-4559-8c24-efac48481aa1" />
 ---
 
 🎉 **Hello there! I'm [Satyajit Mishra](https://github.com/satyajitmishra-dev)**  
